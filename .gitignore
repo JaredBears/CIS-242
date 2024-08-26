@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+# Text Files for Submission
+*lab*.txt
