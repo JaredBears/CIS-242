@@ -2,7 +2,7 @@
 
 Assignment:     Lab 1 - On Operations
 Name:           Jared Bears
-Date:           2024-08-26
+Date:           2024-08-28
 
 Instructions:
 Have a user input of 2 numbers. Take those 2 numbers to add, multiply, divide, subtract and mod.
@@ -11,51 +11,56 @@ call by reference functions. Extra credit a pointer function.
 */
 
 #include <iostream>
+#include <limits>
+#include <string>
 using namespace std;
 
 // Function Prototypes
+int intPrompt(string);
 int add(int, int);
 int subtract(int, int);
 int multiply(int &, int &);
-void divide(int &, int &);
-void mod(int *, int *);
+void divide(int &, int &, double &);
+void mod(int *, int *, int *);
 
 int main()
 {
     int num1, num2;
+    int sum, difference, product, modulus;
+    double quotient;
     int *ptr1 = &num1;
     int *ptr2 = &num2;
-    cout << "Enter the first number: ";
-    cin >> num1;
-    while (cin.fail())
-    {
-        cin.clear();
-        cin.ignore(1000, '\n');
-        cout << "Invalid input. Please enter a number: ";
-        cin >> num1;
-    }
-    cout << "Enter the second number: ";
-    cin >> num2;
-    while (cin.fail())
-    {
-        cin.clear();
-        cin.ignore(1000, '\n');
-        cout << "Invalid input. Please enter a number: ";
-        cin >> num2;
-    }
+    int *modulusPtr = &modulus;
 
-    int sum = add(num1, num2);
-    int difference = subtract(num1, num2);
-    int product = multiply(num1, num2);
+    num1 = intPrompt("Enter the first number: ");
+    num2 = intPrompt("Enter the second number: ");
+
+    sum = add(num1, num2);
+    difference = subtract(num1, num2);
+    product = multiply(num1, num2);
+    divide(num1, num2, quotient);
+    mod(ptr1, ptr2, modulusPtr);
+
 
     cout << "Sum: " << sum << endl;
     cout << "Difference: " << difference << endl;
     cout << "Product: " << product << endl;
-
-    divide(num1, num2);
-    mod(ptr1, ptr2);
-
+    cout << "Quotient: " << quotient << endl;
+    cout << "Modulus: " << modulus << endl;
     return 0;
+}
+
+int intPrompt(string prompt)
+{
+    int num;
+    cout << prompt;
+    while (!(cin >> num))
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Please enter a number: ";
+    }
+    return num;
 }
 
 int add(int num1, int num2)
@@ -76,24 +81,24 @@ int multiply(int &num1, int &num2)
     return product;
 }
 
-void divide(int &num1, int &num2)
+void divide(int &num1, int &num2, double &quotient)
 {
     if (num2 == 0)
     {
+        quotient = 0;
         cout << "Quotient: Cannot divide by zero." << endl;
         return;
     }
-    double quotient = static_cast<double>(num1) / num2;
-    cout << "Quotient: " << quotient << endl;
+    quotient = static_cast<double>(num1) / num2;
 }
 
-void mod(int *num1, int *num2)
+void mod(int *num1, int *num2, int *modulus)
 {
     if (*num2 == 0)
     {
+        *modulus = 0;
         cout << "Modulus: Cannot divide by zero." << endl;
         return;
     }
-    int modulus = *num1 % *num2;
-    cout << "Modulus: " << modulus << endl;
+    *modulus = *num1 % *num2;
 }
