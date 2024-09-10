@@ -23,7 +23,7 @@ Use pointers.
 #include <string>
 using namespace std;
 
-string *generatePatternArray();
+string* generatePatternArray();
 void printHeader();
 void printPattern(string*);
 void horizontalLine();
@@ -42,20 +42,18 @@ int main()
 
     printPattern(patternArray);
 
+    delete[] patternArray;
+
     return 0;
 }
 
 string* generatePatternArray()
 {
     string* patternArray = new string[SIZE];
-    for (int line = 0; line < SIZE; line++)
+    patternArray[0] = "+";
+    for (int line = 1; line < SIZE; line++)
     {
-        string pattern = "";
-        for (int character = 0; character <= line; character++)
-        {
-            pattern += "+";
-        }
-        patternArray[line] = pattern;
+        patternArray[line] = patternArray[line - 1] + "+";
     }
     return patternArray;
 }
@@ -69,7 +67,7 @@ void printHeader()
 
 void printPattern(string *patternArray)
 {
-    for (int line = 1; line <= SIZE; line++)
+    for (int line = 0; line < SIZE; line++)
     {
         patternA(line, patternArray);
         patternB(line, patternArray);
@@ -83,14 +81,14 @@ void horizontalLine()
 
 void patternA(int line, string *patternArray)
 {
-    cout << setw(WIDTH/2) << left << patternArray[line - 1];
+    cout << setw(WIDTH/2) << left << patternArray[line];
 }
 
 void patternB(int line, string *patternArray)
 {
-    cout << setw(WIDTH/2) << left << patternArray[SIZE - line];
+    cout << setw(WIDTH/2) << left << patternArray[SIZE - line -1];
     cout << endl;
-    if(line == SIZE)
+    if(line == SIZE -1)
     {
         horizontalLine();
     }
