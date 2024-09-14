@@ -23,20 +23,20 @@ Use pointers.
 #include <string>
 using namespace std;
 
-string* generatePatternArray();
+string *generatePatternArray();
 void printHeader();
-void printPattern(string*);
+void printPattern(string *);
 void horizontalLine();
-void patternA(int, string*);
-void patternB(int, string*);
+void patternA(int, string *);
+void patternB(int, string *);
 
-const int SIZE = 10;
+const int LOTTERY_SIZE = 10;
 const int WIDTH = 50;
 
 int main()
 {
 
-    string* patternArray = generatePatternArray();
+    string *patternArray = generatePatternArray();
 
     printHeader();
 
@@ -47,11 +47,11 @@ int main()
     return 0;
 }
 
-string* generatePatternArray()
+string *generatePatternArray()
 {
-    string* patternArray = new string[SIZE];
+    string *patternArray = new string[LOTTERY_SIZE];
     patternArray[0] = "+";
-    for (int line = 1; line < SIZE; line++)
+    for (int line = 1; line < LOTTERY_SIZE; line++)
     {
         patternArray[line] = patternArray[line - 1] + "+";
     }
@@ -61,13 +61,13 @@ string* generatePatternArray()
 void printHeader()
 {
     horizontalLine();
-    cout << setw(WIDTH/2) << left << "Pattern A" << setw(WIDTH/2) << left << "Pattern B" << endl;
+    cout << setw(WIDTH / 2) << left << "Pattern A" << setw(WIDTH / 2) << left << "Pattern B" << endl;
     horizontalLine();
 }
 
 void printPattern(string *patternArray)
 {
-    for (int line = 0; line < SIZE; line++)
+    for (int line = 0; line < LOTTERY_SIZE; line++)
     {
         patternA(line, patternArray);
         patternB(line, patternArray);
@@ -81,14 +81,14 @@ void horizontalLine()
 
 void patternA(int line, string *patternArray)
 {
-    cout << setw(WIDTH/2) << left << patternArray[line];
+    cout << setw(WIDTH / 2) << left << patternArray[line];
 }
 
 void patternB(int line, string *patternArray)
 {
-    cout << setw(WIDTH/2) << left << patternArray[SIZE - line -1];
+    cout << setw(WIDTH / 2) << left << patternArray[LOTTERY_SIZE - line - 1];
     cout << endl;
-    if(line == SIZE -1)
+    if (line == LOTTERY_SIZE - 1)
     {
         horizontalLine();
     }
