@@ -49,7 +49,7 @@ int intPrompt(string prompt)
 
 int *arrayAllocator(int size)
 {
-    int *array = new int[size];
+    int *array = new int[size] {0};
     return array;
 }
 
