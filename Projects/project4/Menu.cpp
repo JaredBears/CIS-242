@@ -9,6 +9,7 @@ File:           Menu.cpp
 
 // Implementation file for the Menu class
 #include "Menu.h"
+#include "Shape.h"
 #include <iostream>
 #include <limits>
 #include <string>
@@ -17,12 +18,13 @@ using namespace std;
 void Menu::displayMenu()
 {
     int choice;
+    Shape shape;
     do
     {
         cout << "Menu of Shapes" << endl;
         cout << "1. Triangle" << endl;
         cout << "2. Inverted Triangle" << endl;
-        cout << "3. Rectangle" << endl;
+        cout << "3. Square" << endl;
         cout << "4. Bowtie" << endl;
         cout << "5. Exit" << endl;
         cout << "Enter your choice: ";
@@ -35,16 +37,16 @@ void Menu::displayMenu()
         switch (choice)
         {
         case 1:
-            cout << "Triangle" << endl;
+            shape.triangle(5, false);
             break;
         case 2:
-            cout << "Inverted Triangle" << endl;
+            shape.triangle(5, true);
             break;
         case 3:
-            cout << "Rectangle" << endl;
+            shape.square(5);
             break;
         case 4:
-            cout << "Bowtie" << endl;
+            shape.bowtie();
             break;
         case 5:
             cout << "Exiting..." << endl;
