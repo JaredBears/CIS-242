@@ -18,7 +18,7 @@ class Shape
 {
 public:
     void triangle(int, bool);
-    void square(int);
+    void rectangle(int, int);
     void bowtie();
 };
 

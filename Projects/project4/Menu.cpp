@@ -21,10 +21,10 @@ void Menu::displayMenu()
     Shape shape;
     do
     {
-        cout << "Menu of Shapes" << endl;
+        cout << "Menu of Shapes:" << endl;
         cout << "1. Triangle" << endl;
         cout << "2. Inverted Triangle" << endl;
-        cout << "3. Square" << endl;
+        cout << "3. Rectangle" << endl;
         cout << "4. Bowtie" << endl;
         cout << "5. Exit" << endl;
         cout << "Enter your choice: ";
@@ -43,7 +43,7 @@ void Menu::displayMenu()
             shape.triangle(5, true);
             break;
         case 3:
-            shape.square(5);
+            shape.rectangle(5, 7);
             break;
         case 4:
             shape.bowtie();
