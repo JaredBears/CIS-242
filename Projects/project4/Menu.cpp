@@ -37,13 +37,13 @@ void Menu::displayMenu()
         switch (choice)
         {
         case 1:
-            shape.triangle(5, false);
+            shape.triangle(false);
             break;
         case 2:
-            shape.triangle(5, true);
+            shape.triangle(true);
             break;
         case 3:
-            shape.rectangle(5, 7);
+            shape.rectangle();
             break;
         case 4:
             shape.bowtie();
