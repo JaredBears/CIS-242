@@ -12,14 +12,18 @@ File:           Shape.h
 #ifndef SHAPE_H
 #define SHAPE_H
 
+#include <string>
+using namespace std;
+
 // Shape class declaration
 
 class Shape
 {
 public:
-    void triangle(int, bool);
-    void rectangle(int, int);
+    void triangle(bool);
+    void rectangle();
     void bowtie();
+    int intPrompt(string);
 };
 
 #endif

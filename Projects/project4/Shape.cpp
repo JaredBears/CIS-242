@@ -11,11 +11,13 @@ File:           Shape.cpp
 
 #include "Shape.h"
 #include <iostream>
+#include <limits>
 using namespace std;
 
-void Shape::triangle(int size, bool inverted)
+void Shape::triangle(bool inverted)
 {
 
+    int size = intPrompt("Enter the size of the triangle: ");
     int start = inverted ? size - 1 : 0;
     int end = inverted ? -1 : size;
 
@@ -35,8 +37,11 @@ void Shape::triangle(int size, bool inverted)
     }
 }
 
-void Shape::rectangle(int height, int width)
+void Shape::rectangle()
 {
+    int height = intPrompt("Enter the height of the rectangle: ");
+    int width = intPrompt("Enter the width of the rectangle: ");
+
     for (int i = 0; i < height; i++)
     {
         cout << "     ";
@@ -67,4 +72,18 @@ void Shape::bowtie()
     cout << "       B?           .:!JY?~.                     .^?YY7^.           ^#." << endl;
     cout << "       :#7....:^~7JYJ7^.                             .^7JYJ?!^:....~#~" << endl;
     cout << "        .!7?77!~^:.                                       .:^~!77?77." << endl;
+}
+
+int Shape::intPrompt(string prompt)
+{
+    int value;
+    cout << prompt;
+    while (!(cin >> value) || value < 1)
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Please enter an integer greater than zero." << endl;
+        cout << prompt;
+    }
+    return value;
 }
