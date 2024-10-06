@@ -15,22 +15,56 @@ using namespace std;
 
 void Shape::triangle(int size, bool inverted)
 {
-    if (inverted)
+
+    int start = inverted ? size - 1 : 0;
+    int end = inverted ? -1 : size;
+
+    for (int i = start; i != end; inverted ? i-- : i++)
     {
-        cout << "Inverted Triangle" << endl;
-    }
-    else
-    {
-        cout << "Triangle" << endl;
+        cout << "     ";
+        for (int j = 0; j < size - i - 1; j++)
+        {
+            cout << " ";
+        }
+        // print characters
+        for (int j = 0; j < 2 * i + 1; j++)
+        {
+            cout << "*";
+        }
+        cout << endl;
     }
 }
 
-void Shape::square(int size)
+void Shape::rectangle(int height, int width)
 {
-    cout << "Square" << endl;
+    for (int i = 0; i < height; i++)
+    {
+        cout << "     ";
+        for (int j = 0; j < width; j++)
+        {
+            cout << "*";
+        }
+        cout << endl;
+    }
 }
 
 void Shape::bowtie()
 {
-    cout << "Bowtie" << endl;
+    cout << "        :JJJ?????~:.                                     .:^!7???J?J^" << endl;
+    cout << "       ^#^    ..:~7JYJ7^.                            :!JYJ7~^..    :B7" << endl;
+    cout << "       #!            .^7YY7:                     :!JY?^.            :&." << endl;
+    cout << "      ~#                 .^J5J^               :?5Y~.                 GJ" << endl;
+    cout << "      Y5                     :?5J!5YJYYYJY57?5J^                     7G" << endl;
+    cout << "      #7                        ^&!       :&!                        ^&." << endl;
+    cout << "      &~                         B~       .#.                        .&." << endl;
+    cout << "     .&^                         B~       .#.                        .&:" << endl;
+    cout << "     .&^                         B~       .#.                        .&:" << endl;
+    cout << "     .&^                         B~       .#.                        .&:" << endl;
+    cout << "      &~                         B~       .#.                        .&." << endl;
+    cout << "      B?                       .!&7       ^&?.                       ^&." << endl;
+    cout << "      JP                    .~Y5!^JYJJJJJJY~~Y5!.                    ?G" << endl;
+    cout << "      ^#                 :!55!.               .~Y57:                 G?" << endl;
+    cout << "       B?           .:!JY?~.                     .^?YY7^.           ^#." << endl;
+    cout << "       :#7....:^~7JYJ7^.                             .^7JYJ?!^:....~#~" << endl;
+    cout << "        .!7?77!~^:.                                       .:^~!77?77." << endl;
 }
