@@ -7,6 +7,8 @@ File:           Menu.cpp
 
 */
 
+// Implementation file for the Menu class
+
 #include "Menu.h"
 #include <string>
 #include <iostream>
@@ -31,7 +33,6 @@ string Menu::getStringInput(string prompt)
 {
     string value;
     cout << prompt;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    getline(cin, value);
+    cin >> value;
     return value;
 }

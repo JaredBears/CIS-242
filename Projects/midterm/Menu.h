@@ -20,7 +20,6 @@ using namespace std;
 class Menu
 {
 public:
-    void displayMenu();
     string getStringInput(string);
     int getIntInput(string, int, int);
 };
