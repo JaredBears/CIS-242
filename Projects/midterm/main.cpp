@@ -8,11 +8,13 @@ File:           main.cpp
 */
 
 #include "LoginMenu.h"
+#include "TransactionMenu.h"
 
 int main()
 {
-    LoginMenu loginMenu;
-    loginMenu.displayMenu();
+    LoginMenu lm;
+    TransactionMenu tm;
+    lm.displayMenu(tm);
 
     return 0;
 }

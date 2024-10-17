@@ -13,6 +13,7 @@ File:           LoginMenu.h
 #define LOGINMENU_H
 
 #include "Menu.h"
+#include "TransactionMenu.h"
 #include <string>
 #include <unordered_map>
 using namespace std;
@@ -23,9 +24,8 @@ class LoginMenu : public Menu
 {
 public:
     LoginMenu();
-    void displayMenu();
-    void login(string, string);
-    void createUser(string, string);
+    void displayMenu(TransactionMenu);
+    void login(string, string, TransactionMenu);
 
 private:
     unordered_map<string, string> *userBase;

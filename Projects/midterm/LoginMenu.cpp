@@ -30,7 +30,7 @@ LoginMenu::LoginMenu()
 // If the user is found, returns the username.  If not, creates a new user.
 // TODO: Passes the User to the TransactionMenu.
 
-void LoginMenu::displayMenu()
+void LoginMenu::displayMenu(TransactionMenu tm)
 {
     string username;
     string password;
@@ -39,10 +39,10 @@ void LoginMenu::displayMenu()
     username = getStringInput("Enter Your Username: ");
     password = getStringInput("Enter Your Password: ");
 
-    login(username, password);
+    login(username, password, tm);
 }
 
-void LoginMenu::login(string username, string password)
+void LoginMenu::login(string username, string password, TransactionMenu tm)
 {
     // check if the username exists in the database
     if (userBase->find(username) != userBase->end())
@@ -53,15 +53,14 @@ void LoginMenu::login(string username, string password)
             // if the password matches, display the username
             // TODO: Pass user to TransactionMenu
             cout << "Welcome, " << username << "!" << endl;
-            TransactionMenu transactionMenu;
-            transactionMenu.displayMenu();
+            tm.displayMenu();
         }
         else
         {
             // if the password doesn't match, display an error message and
             // return to the menu
             cout << "Incorrect password.  Please try again." << endl;
-            displayMenu();
+            displayMenu(tm);
         }
     }
     else
@@ -72,5 +71,6 @@ void LoginMenu::login(string username, string password)
         userBase->insert({username, password});
         cout << "New user created: " << username << endl;
         cout << "Welcome, " << username << "!" << endl;
+        tm.displayMenu();
     }
 }
