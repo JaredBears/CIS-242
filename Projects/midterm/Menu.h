@@ -22,6 +22,8 @@ class Menu
 public:
     string getStringInput(string);
     int getIntInput(string, int, int);
+    double getDoubleInput(string, double, double);
+    double truncateDouble(double, int);
 };
 
 #endif

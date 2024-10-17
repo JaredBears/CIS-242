@@ -10,6 +10,7 @@ File:           LoginMenu.cpp
 // Implementation file for the LoginMenu class
 
 #include "LoginMenu.h"
+#include "TransactionMenu.h"
 #include <iostream>
 
 // Pulls up the database of existing users.  For now, it's just a hardcoded map,
@@ -52,6 +53,8 @@ void LoginMenu::login(string username, string password)
             // if the password matches, display the username
             // TODO: Pass user to TransactionMenu
             cout << "Welcome, " << username << "!" << endl;
+            TransactionMenu transactionMenu;
+            transactionMenu.displayMenu();
         }
         else
         {
