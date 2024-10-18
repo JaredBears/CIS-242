@@ -13,64 +13,59 @@ File:           LoginMenu.cpp
 #include "TransactionMenu.h"
 #include <iostream>
 
-// Pulls up the database of existing users.  For now, it's just a hardcoded map,
-// but will eventually be a JSON file full of User Objects.
-
 LoginMenu::LoginMenu()
 {
-    // use dynamic memory allocation to create a new unordered_map
-    userBase = new unordered_map<string, string>;
-    // add some users to the map
-    userBase->insert({"jared", "password1"});
-    userBase->insert({"jane", "password2"});
-    // TODO: Once User Objects are created, add them to the map instead of strings
+    userBase = new unordered_map<string, User *>;
+    userBase->insert({"jared", new User("jared", "password1")});
+    userBase->insert({"jane", new User("jane", "password2")});
 }
 
-// Prompts the user for a username and password, then checks them against the database.
-// If the user is found, returns the username.  If not, creates a new user.
-// TODO: Passes the User to the TransactionMenu.
-
-void LoginMenu::displayMenu(TransactionMenu tm)
+void LoginMenu::displayMenu()
 {
     string username;
     string password;
 
-    cout << "Welcome to the ATM.  Please log in." << endl;
+    cout << "Welcome to the ATM. Please log in." << endl;
     username = getStringInput("Enter Your Username: ");
     password = getStringInput("Enter Your Password: ");
 
-    login(username, password, tm);
+    login(username, password);
 }
 
-void LoginMenu::login(string username, string password, TransactionMenu tm)
+void LoginMenu::login(string username, string password)
 {
-    // check if the username exists in the database
-    if (userBase->find(username) != userBase->end())
+    auto it = userBase->find(username);
+    if (it != userBase->end())
     {
-        // if the username exists, check if the password matches
-        if (userBase->at(username) == password)
+        User *user = it->second;
+        if (user->getPassword() == password)
         {
-            // if the password matches, display the username
-            // TODO: Pass user to TransactionMenu
             cout << "Welcome, " << username << "!" << endl;
+            TransactionMenu tm(user);
             tm.displayMenu();
         }
         else
         {
-            // if the password doesn't match, display an error message and
-            // return to the menu
-            cout << "Incorrect password.  Please try again." << endl;
-            displayMenu(tm);
+            cout << "Incorrect password. Please try again." << endl;
+            displayMenu();
         }
     }
     else
     {
-        // if the username doesn't exist, add it to the database and display it.
-        // TODO: Create a User Object and add it to the database
-        // TODO: Pass user to TransactionMenu
-        userBase->insert({username, password});
+        User *newUser = new User(username, password);
+        userBase->insert({username, newUser});
         cout << "New user created: " << username << endl;
         cout << "Welcome, " << username << "!" << endl;
+        TransactionMenu tm(newUser);
         tm.displayMenu();
     }
+}
+
+LoginMenu::~LoginMenu()
+{
+    for (auto it = userBase->begin(); it != userBase->end(); ++it)
+    {
+        delete it->second; // Delete each User object
+    }
+    delete userBase; // Delete the unordered_map
 }

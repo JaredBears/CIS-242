@@ -16,9 +16,9 @@ File:           TransactionMenu.cpp
 using namespace std;
 
 // Constructor for the TransactionMenu class
-TransactionMenu::TransactionMenu()
+TransactionMenu::TransactionMenu(User *u)
 {
-    balance = 500;
+    user = u;
 }
 
 // Displays the main menu for the TransactionMenu
@@ -62,7 +62,7 @@ void TransactionMenu::displayMenu()
 void TransactionMenu::checkBalance()
 {
     cout << fixed << setprecision(2);
-    cout << "Your current balance is: $" << balance << endl;
+    cout << "Your current balance is: $" << user->getBalance() << endl;
 }
 
 // Deposits money into the account
@@ -76,24 +76,25 @@ void TransactionMenu::transact(bool isDeposit)
 
     amount = truncateDouble(amount, 2);
 
-    balance += isDeposit ? amount : -amount;
+    double newBalance = user->getBalance() + (isDeposit ? amount : -amount);
+    user->setBalance(newBalance);
 
     cout << fixed << setprecision(2);
 
     cout << "$" << amount << " has been " << pastTense << " your account." << endl;
-    cout << "Your new balance is: $" << balance << endl;
+    cout << "Your new balance is: $" << user->getBalance() << endl;
 }
 
 // Checks the interest on the account
 void TransactionMenu::checkInterest()
 {
     const double RATE = 0.01;
-    double interest = balance * RATE;
+    double interest = user->getBalance() * RATE;
 
     cout << fixed << setprecision(2);
-    cout << "Your starting balance is: $" << balance << endl;
+    cout << "Your starting balance is: $" << user->getBalance() << endl;
     cout << "Your interest rate is: " << RATE * 100 << "%" << endl;
     cout << "Your interest earned is: $" << interest << endl;
-    cout << "Your new balance is: $" << balance + interest << endl;
-    balance += interest;
+    cout << "Your new balance is: $" << user->getBalance() + interest << endl;
+    user->setBalance(user->getBalance() + interest);
 }

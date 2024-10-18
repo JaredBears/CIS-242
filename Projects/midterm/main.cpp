@@ -13,8 +13,7 @@ File:           main.cpp
 int main()
 {
     LoginMenu lm;
-    TransactionMenu tm;
-    lm.displayMenu(tm);
+    lm.displayMenu();
 
     return 0;
 }

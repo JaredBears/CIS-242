@@ -14,21 +14,21 @@ File:           LoginMenu.h
 
 #include "Menu.h"
 #include "TransactionMenu.h"
+#include "User.h"
 #include <string>
 #include <unordered_map>
 using namespace std;
 
-// LoginMenu class declaration
-
 class LoginMenu : public Menu
 {
+private:
+    unordered_map<string, User *> *userBase;
+
 public:
     LoginMenu();
-    void displayMenu(TransactionMenu);
-    void login(string, string, TransactionMenu);
-
-private:
-    unordered_map<string, string> *userBase;
+    ~LoginMenu();
+    void displayMenu();
+    void login(string, string);
 };
 
 #endif

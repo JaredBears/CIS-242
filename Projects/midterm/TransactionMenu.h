@@ -13,20 +13,21 @@ File:           TransactionMenu.h
 #define TRANSACTIONMENU_H
 
 #include "Menu.h"
+#include "User.h"
 
 // TransactionMenu class declaration
 
 class TransactionMenu : public Menu
 {
 public:
-    TransactionMenu();
+    TransactionMenu(User *);
     void displayMenu();
     void checkBalance();
     void transact(bool);
     void checkInterest();
 
 private:
-    double balance;
+    User *user;
 };
 
 #endif
