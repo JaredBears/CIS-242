@@ -32,7 +32,7 @@
 *.app
 
 # Text Files for Submission
-*lab*.txt
-*project*.txt
-*cpp.txt
-*h.txt
+*.txt
+
+# JSON Files
+*.json
