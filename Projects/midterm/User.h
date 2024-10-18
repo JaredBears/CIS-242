@@ -34,6 +34,9 @@ public:
     // Constructor with specified balance
     User(string, string, double);
 
+    // Accessor for username
+    string getUsername();
+
     // Accessor for password
     string getPassword();
 

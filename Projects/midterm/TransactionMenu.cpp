@@ -13,6 +13,7 @@ File:           TransactionMenu.cpp
 #include <iostream>
 #include <iomanip>
 #include <limits>
+#include <fstream>
 using namespace std;
 
 // Constructor for the TransactionMenu class
@@ -68,13 +69,15 @@ void TransactionMenu::checkBalance()
 // Handles deposit and withdrawal transactions
 void TransactionMenu::transact(bool isDeposit)
 {
+    double startingBalance = user->getBalance();
+    double newBalance;
     double amount;
     int modifier;
     string action;
     string pastTense;
     // Set the modifier, action, and past tense based on the transaction type
     // The modifier is used to add or subtract the amount from the balance
-    if(isDeposit)
+    if (isDeposit)
     {
         modifier = 1;
         action = "deposit";
@@ -91,8 +94,11 @@ void TransactionMenu::transact(bool isDeposit)
 
     amount = truncateDouble(amount, 2) * modifier;
 
-    double newBalance = user->getBalance() + amount;
+    newBalance = user->getBalance() + amount;
+
     user->setBalance(newBalance);
+
+    logTransaction(user->getUsername(), startingBalance, amount, newBalance);
 
     cout << fixed << setprecision(2);
 
@@ -104,12 +110,30 @@ void TransactionMenu::transact(bool isDeposit)
 void TransactionMenu::checkInterest()
 {
     const double RATE = 0.01;
-    double interest = user->getBalance() * RATE;
+    double startingBalance = user->getBalance();
+    double interest = truncateDouble(startingBalance * RATE, 2);
+    double newBalance = startingBalance + interest;
 
     cout << fixed << setprecision(2);
-    cout << "Your starting balance is: $" << user->getBalance() << endl;
+    cout << "Your starting balance is: $" << startingBalance << endl;
     cout << "Your interest rate is: " << RATE * 100 << "%" << endl;
     cout << "Your interest earned is: $" << interest << endl;
-    cout << "Your new balance is: $" << user->getBalance() + interest << endl;
-    user->setBalance(user->getBalance() + interest);
+    cout << "Your new balance is: $" << newBalance << endl;
+    user->setBalance(newBalance);
+    logTransaction(user->getUsername(), startingBalance, interest, newBalance);
+}
+
+// Logs the transaction to a CSV file
+void TransactionMenu::logTransaction(const string &username, double startingBalance, double amount, double endingBalance)
+{
+    ofstream file("transactions.csv", ios::app);
+    if (file.is_open())
+    {
+        file << username << "," << startingBalance << "," << amount << "," << endingBalance << "," << time(0) << endl;
+        file.close();
+    }
+    else
+    {
+        cerr << "Unable to open file for logging transactions." << endl;
+    }
 }

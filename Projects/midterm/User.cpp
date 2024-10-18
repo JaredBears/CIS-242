@@ -35,6 +35,12 @@ User::User(string u, string p, double b)
     balance = b;
 }
 
+// Accessor for username
+string User::getUsername()
+{
+    return username;
+}
+
 // Accessor for password
 string User::getPassword()
 {
