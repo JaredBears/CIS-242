@@ -65,18 +65,33 @@ void TransactionMenu::checkBalance()
     cout << "Your current balance is: $" << user->getBalance() << endl;
 }
 
-// Deposits money into the account
+// Handles deposit and withdrawal transactions
 void TransactionMenu::transact(bool isDeposit)
 {
     double amount;
-    string action = isDeposit ? "deposit" : "withdraw";
-    string pastTense = isDeposit ? "deposited to" : "withdrawn from";
+    int modifier;
+    string action;
+    string pastTense;
+    // Set the modifier, action, and past tense based on the transaction type
+    // The modifier is used to add or subtract the amount from the balance
+    if(isDeposit)
+    {
+        modifier = 1;
+        action = "deposit";
+        pastTense = "deposited into";
+    }
+    else
+    {
+        modifier = -1;
+        action = "withdraw";
+        pastTense = "withdrawn from";
+    }
 
     amount = getDoubleInput("Enter the amount to " + action + ": $", 0.01, 10000);
 
-    amount = truncateDouble(amount, 2);
+    amount = truncateDouble(amount, 2) * modifier;
 
-    double newBalance = user->getBalance() + (isDeposit ? amount : -amount);
+    double newBalance = user->getBalance() + amount;
     user->setBalance(newBalance);
 
     cout << fixed << setprecision(2);

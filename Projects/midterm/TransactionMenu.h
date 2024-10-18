@@ -16,14 +16,23 @@ File:           TransactionMenu.h
 #include "User.h"
 
 // TransactionMenu class declaration
-
+// Manages transactions such as checking balance, depositing, withdrawing, and calculating interest
 class TransactionMenu : public Menu
 {
 public:
+    // Constructor
     TransactionMenu(User *);
+
+    // Displays the main menu for the TransactionMenu
     void displayMenu();
+
+    // Checks the balance of the account
     void checkBalance();
+
+    // Handles deposit and withdrawal transactions
     void transact(bool);
+
+    // Checks the interest on the account
     void checkInterest();
 
 private:

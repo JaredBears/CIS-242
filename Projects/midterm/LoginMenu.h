@@ -19,15 +19,24 @@ File:           LoginMenu.h
 #include <unordered_map>
 using namespace std;
 
+// LoginMenu class declaration
+// Handles user login and user creation
 class LoginMenu : public Menu
 {
 private:
     unordered_map<string, User *> *userBase;
 
 public:
+    // Constructor
     LoginMenu();
+
+    // Destructor
     ~LoginMenu();
+
+    // Displays the login menu
     void displayMenu();
+
+    // Handles user login
     void login(string, string);
 };
 
