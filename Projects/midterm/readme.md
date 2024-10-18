@@ -1,27 +1,52 @@
-Here are the following requirements for the next project:
+# ATM Simulation Project
 
-1. Create a program that subtracts a withdrawal from a Savings Account, and returns the following on the screen:
-    - Balance use any amount hard-coded in your code.
-    - Amount withdrawn (input by user)
-    - Amount deposit (input by user)
-    - Interest Acrued (it is whatever equation you come up with from the starting balance)
-    - Exit (Exit out of the program)
-2. If the withdrawal amount is greater than the Starting balance, a message appears stating: Insufficnet Funds.  Next you will then ask the user to either exit or go back to the main menu.
-3. If the withdrawal amount is a negative number, a message should appear stating: "Negative entries are not allowed."  Thereafter, you will then ask the user to either exit or go back to the main menu.
-4. I need a username and password should be the 1st page before you are able to see the menu options.
-5. Calculate the interest at 1% of the Starting Balance.  This should take place after the user enters their information.  It should show them their interest thus far.
-6. Please make sure when there is a withdrawal or deposit I should be able to go back to the balance and see that it is changed.  For instamce, if I start with 1000 and do a deposit of 500, I should be able to go back to the menu and see that reflection in the Balance option.  The starting balance in your code should not be a constant variable it needs to be a static variable.
+## Overview
 
-Grading:
-- Program Functionality 80%
-    - classes
-    - constructor
-    - inheritance
-    - pointers
-    - functions
-    - loops, if/else
-- Code Indentation/Comments 20%  - Structure and more comments, PLEASE ADD COMMENTS TO YOUR CODE AS WELL
+This project is a simulation of an ATM system. It allows users to log in, check their balance, deposit and withdraw money, and calculate interest. The project is divided into multiple classes to handle different functionalities such as user management, login, and transactions.
 
-Extra Credit: Output transactions to a file.
+## Classes
 
-Please copy and paste your code into a text file and then attach.  Please do not sen me the .cpp files or the whole project.
+### `Menu`
+
+- **File:** [Menu.h](./Menu.h), [Menu.cpp](./Menu.cpp)
+- **Description:** Provides utility functions for input handling and truncating double values.
+
+### `User`
+
+- **File:** [User.h](./User.h), [User.cpp](./User.cpp)
+- **Description:** Manages user information including username, password, and balance.
+
+### `LoginMenu`
+- **File:** [LoginMenu.h](./LoginMenu.h), [LoginMenu.cpp](./LoginMenu.cpp)
+- **Description:** Handles user login and user creation.
+
+### `TransactionMenu`
+
+- **File:** [TransactionMenu.h](./TransactionMenu.h), [TransactionMenu.cpp](./TransactionMenu.cpp)
+- **Description:** Manages transactions such as checking balance, depositing, withdrawing, and calculating interest.
+
+## How to Compile
+
+To compile the project using `g++`, follow these steps:
+
+1. Open a terminal and navigate to the location where the project is saved.
+2. Run the following command to compile all the `.cpp` files:
+
+```sh
+g++ -o atm.exe main.cpp Menu.cpp User.cpp LoginMenu.cpp TransactionMenu.cpp
+```
+
+And then to run the executable:
+```sh
+./atm.exe
+```
+
+## Usage
+When you run the program, you will be prompted to log in.
+Enter your username and password. If the user does not exist, a new user will be created.
+After logging in, you will be presented with a menu to check your balance, deposit money, withdraw money, or check interest.
+Follow the prompts to perform the desired actions.
+
+## Author
+Name: Jared Bears
+Date: 2024-10-27

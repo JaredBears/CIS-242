@@ -16,7 +16,7 @@ File:           User.h
 using namespace std;
 
 // User class declaration
-
+// Manages user information including username, password, and balance
 class User
 {
 private:
@@ -25,11 +25,22 @@ private:
     double balance;
 
 public:
+    // Default constructor
     User();
+
+    // Constructor with default balance
     User(string, string);
+
+    // Constructor with specified balance
     User(string, string, double);
+
+    // Accessor for password
     string getPassword();
+
+    // Accessor for balance
     double getBalance();
+
+    // Mutator for balance
     void setBalance(double);
 };
 

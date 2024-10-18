@@ -16,6 +16,7 @@ File:           Menu.cpp
 #include <cmath>
 using namespace std;
 
+// Prompts the user for an integer input within a specified range
 int Menu::getIntInput(string prompt, int min, int max)
 {
     int value;
@@ -30,6 +31,7 @@ int Menu::getIntInput(string prompt, int min, int max)
     return value;
 }
 
+// Prompts the user for a string input
 string Menu::getStringInput(string prompt)
 {
     string value;
@@ -38,6 +40,7 @@ string Menu::getStringInput(string prompt)
     return value;
 }
 
+// Prompts the user for a double input within a specified range
 double Menu::getDoubleInput(string prompt, double min, double max)
 {
     double value;
@@ -52,6 +55,7 @@ double Menu::getDoubleInput(string prompt, double min, double max)
     return value;
 }
 
+// Truncates a double value to a specified number of decimal places
 double Menu::truncateDouble(double value, int places)
 {
     value -= pow(10, -places) / 2;

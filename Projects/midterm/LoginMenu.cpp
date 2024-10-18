@@ -13,6 +13,7 @@ File:           LoginMenu.cpp
 #include "TransactionMenu.h"
 #include <iostream>
 
+// Constructor for the LoginMenu class
 LoginMenu::LoginMenu()
 {
     userBase = new unordered_map<string, User *>;
@@ -20,6 +21,7 @@ LoginMenu::LoginMenu()
     userBase->insert({"jane", new User("jane", "password2")});
 }
 
+// Displays the login menu
 void LoginMenu::displayMenu()
 {
     string username;
@@ -32,12 +34,15 @@ void LoginMenu::displayMenu()
     login(username, password);
 }
 
+// Handles user login
 void LoginMenu::login(string username, string password)
 {
     auto it = userBase->find(username);
+    // if user exists, check password, else create new user
     if (it != userBase->end())
     {
         User *user = it->second;
+        // if password matches, display transaction menu, else try again
         if (user->getPassword() == password)
         {
             cout << "Welcome, " << username << "!" << endl;
@@ -61,6 +66,7 @@ void LoginMenu::login(string username, string password)
     }
 }
 
+// Destructor for the LoginMenu class
 LoginMenu::~LoginMenu()
 {
     for (auto it = userBase->begin(); it != userBase->end(); ++it)
