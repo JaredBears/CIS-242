@@ -10,67 +10,136 @@ File:           LoginMenu.cpp
 // Implementation file for the LoginMenu class
 
 #include "LoginMenu.h"
-#include "TransactionMenu.h"
 #include <iostream>
+#include <fstream>
+#include <sstream>
+using namespace std;
 
-// Pulls up the database of existing users.  For now, it's just a hardcoded map,
-// but will eventually be a JSON file full of User Objects.
-
+// Constructor for the LoginMenu class
 LoginMenu::LoginMenu()
 {
-    // use dynamic memory allocation to create a new unordered_map
-    userBase = new unordered_map<string, string>;
-    // add some users to the map
-    userBase->insert({"jared", "password1"});
-    userBase->insert({"jane", "password2"});
-    // TODO: Once User Objects are created, add them to the map instead of strings
+    userBase = new unordered_map<string, User *>;
+    loadUserBase();
 }
 
-// Prompts the user for a username and password, then checks them against the database.
-// If the user is found, returns the username.  If not, creates a new user.
-// TODO: Passes the User to the TransactionMenu.
-
-void LoginMenu::displayMenu(TransactionMenu tm)
+// Loads user data from a JSON file
+void LoginMenu::loadUserBase()
 {
-    string username;
-    string password;
-
-    cout << "Welcome to the ATM.  Please log in." << endl;
-    username = getStringInput("Enter Your Username: ");
-    password = getStringInput("Enter Your Password: ");
-
-    login(username, password, tm);
-}
-
-void LoginMenu::login(string username, string password, TransactionMenu tm)
-{
-    // check if the username exists in the database
-    if (userBase->find(username) != userBase->end())
+    ifstream file("userbase.json");
+    if (file.is_open())
     {
-        // if the username exists, check if the password matches
-        if (userBase->at(username) == password)
+        stringstream buffer;
+        buffer << file.rdbuf();
+        string jsonStr = buffer.str();
+        file.close();
+
+        size_t pos = 0;
+        while ((pos = jsonStr.find("{", pos)) != string::npos)
         {
-            // if the password matches, display the username
-            // TODO: Pass user to TransactionMenu
-            cout << "Welcome, " << username << "!" << endl;
-            tm.displayMenu();
-        }
-        else
-        {
-            // if the password doesn't match, display an error message and
-            // return to the menu
-            cout << "Incorrect password.  Please try again." << endl;
-            displayMenu(tm);
+            size_t endPos = jsonStr.find("}", pos);
+            string userStr = jsonStr.substr(pos, endPos - pos + 1);
+            pos = endPos + 1;
+
+            size_t userPos = userStr.find("\"username\":");
+            size_t passPos = userStr.find("\"password\":");
+            size_t balPos = userStr.find("\"balance\":");
+
+            string username = userStr.substr(userPos + 12, userStr.find(",", userPos) - userPos - 13);
+            string password = userStr.substr(passPos + 12, userStr.find(",", passPos) - passPos - 13);
+            double balance = stod(userStr.substr(balPos + 10, userStr.find("}", balPos) - balPos - 10));
+
+            // Remove quotation marks from username and password
+            username = username.substr(1, username.length() - 1);
+            password = password.substr(1, password.length() - 1);
+
+            userBase->insert({username, new User(username, password, balance)});
         }
     }
     else
     {
-        // if the username doesn't exist, add it to the database and display it.
-        // TODO: Create a User Object and add it to the database
-        // TODO: Pass user to TransactionMenu
-        userBase->insert({username, password});
+        // Default users if JSON file does not exist
+        userBase->insert({"jared", new User("jared", "password")});
+        userBase->insert({"jane", new User("jane", "password")});
+    }
+}
+
+// Saves user data to a JSON file
+void LoginMenu::saveUserBase()
+{
+    ofstream file("userbase.json", ofstream::trunc); // Open file in truncate mode to overwrite
+    if (file.is_open())
+    {
+        file << "[\n";
+        for (auto it = userBase->begin(); it != userBase->end(); ++it)
+        {
+            file << "  {\n";
+            file << "    \"username\": \"" << it->first << "\",\n";
+            file << "    \"password\": \"" << it->second->getPassword() << "\",\n";
+            file << "    \"balance\": " << it->second->getBalance() << "\n";
+            file << "  }";
+            if (next(it) != userBase->end())
+            {
+                file << ",";
+            }
+            file << "\n";
+        }
+        file << "]";
+        file.close();
+    }
+}
+
+// Displays the login menu
+void LoginMenu::displayMenu()
+{
+    string username;
+    string password;
+
+    cout << "Welcome to the ATM. Please log in." << endl;
+    username = getStringInput("Enter Your Username: ");
+    password = getStringInput("Enter Your Password: ");
+
+    login(username, password);
+}
+
+// Handles user login
+void LoginMenu::login(string username, string password)
+{
+    auto it = userBase->find(username);
+    // if user exists, check password, else create new user
+    if (it != userBase->end())
+    {
+        User *user = it->second;
+        // if password matches, display transaction menu, else try again
+        if (user->getPassword() == password)
+        {
+            cout << "Welcome, " << username << "!" << endl;
+            TransactionMenu tm(user);
+            tm.displayMenu();
+        }
+        else
+        {
+            cout << "Incorrect password. Please try again." << endl;
+            displayMenu();
+        }
+    }
+    else
+    {
+        User *newUser = new User(username, password);
+        userBase->insert({username, newUser});
         cout << "New user created: " << username << endl;
         cout << "Welcome, " << username << "!" << endl;
+        TransactionMenu tm(newUser);
         tm.displayMenu();
     }
+}
+
+// Destructor for the LoginMenu class
+LoginMenu::~LoginMenu()
+{
+    saveUserBase();
+    for (auto it = userBase->begin(); it != userBase->end(); ++it)
+    {
+        delete it->second; // Delete each User object
+    }
+    delete userBase; // Delete the unordered_map
 }

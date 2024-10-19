@@ -14,21 +14,36 @@ File:           LoginMenu.h
 
 #include "Menu.h"
 #include "TransactionMenu.h"
+#include "User.h"
 #include <string>
 #include <unordered_map>
 using namespace std;
 
 // LoginMenu class declaration
-
+// Handles user login and user creation
 class LoginMenu : public Menu
 {
-public:
-    LoginMenu();
-    void displayMenu(TransactionMenu);
-    void login(string, string, TransactionMenu);
-
 private:
-    unordered_map<string, string> *userBase;
+    unordered_map<string, User *> *userBase;
+
+    // Loads user data from a JSON file
+    void loadUserBase();
+
+    // Saves user data to a JSON file
+    void saveUserBase();
+
+public:
+    // Constructor
+    LoginMenu();
+
+    // Destructor
+    ~LoginMenu();
+
+    // Displays the login menu
+    void displayMenu();
+
+    // Handles user login
+    void login(string, string);
 };
 
 #endif
