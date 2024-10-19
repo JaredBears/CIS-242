@@ -86,6 +86,10 @@ void LoginMenu::saveUserBase()
         file << "]";
         file.close();
     }
+    else // If file cannot be opened
+    {
+        cerr << "Error: Could not save user data." << endl;
+    }
 }
 
 // Displays the login menu
@@ -118,7 +122,7 @@ void LoginMenu::login(string username, string password)
         }
         else
         {
-            cout << "Incorrect password. Please try again." << endl;
+            cerr << "Incorrect password. Please try again." << endl;
             displayMenu();
         }
     }
