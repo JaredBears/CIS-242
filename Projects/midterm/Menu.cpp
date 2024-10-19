@@ -26,7 +26,7 @@ int Menu::getIntInput(string prompt, int min, int max)
     {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Invalid input. Please enter a number between " << min << " and " << max << ": " << endl;
+        cerr << "Invalid input. Please enter a number between " << min << " and " << max << ": " << endl;
         cout << prompt;
     }
     return value;
@@ -51,7 +51,7 @@ double Menu::getDoubleInput(string prompt, double min, double max)
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cout << fixed << setprecision(2);
-        cout << "Invalid input. Please enter a number between $" << min << " and $" << max << ": " << endl;
+        cerr << "Invalid input. Please enter a number between $" << min << " and $" << max << ": " << endl;
         cout << prompt;
     }
     return value;

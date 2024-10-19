@@ -87,6 +87,11 @@ void TransactionMenu::transact(bool isDeposit)
     }
     else
     {
+        if (startingBalance == 0)
+        {
+            cerr << "You cannot withdraw from an account with a balance of $0." << endl;
+            return;
+        }
         modifier = -1;
         action = "withdraw";
         pastTense = "withdrawn from";
