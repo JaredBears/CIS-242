@@ -26,6 +26,12 @@ class LoginMenu : public Menu
 private:
     unordered_map<string, User *> *userBase;
 
+    // Loads user data from a JSON file
+    void loadUserBase();
+
+    // Saves user data to a JSON file
+    void saveUserBase();
+
 public:
     // Constructor
     LoginMenu();

@@ -36,3 +36,6 @@
 
 # JSON Files
 *.json
+
+# csv Files
+*.csv

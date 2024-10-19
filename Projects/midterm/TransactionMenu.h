@@ -37,6 +37,9 @@ public:
 
 private:
     User *user;
+
+    // Logs the transaction to a CSV file
+    void logTransaction(const string &username, double startingBalance, double amount, double endingBalance);
 };
 
 #endif
