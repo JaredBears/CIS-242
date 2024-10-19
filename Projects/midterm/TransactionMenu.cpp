@@ -72,6 +72,7 @@ void TransactionMenu::transact(bool isDeposit)
     double startingBalance = user->getBalance();
     double newBalance;
     double amount;
+    double maxAmount;
     int modifier;
     string action;
     string pastTense;
@@ -82,15 +83,17 @@ void TransactionMenu::transact(bool isDeposit)
         modifier = 1;
         action = "deposit";
         pastTense = "deposited into";
+        maxAmount = 10000;
     }
     else
     {
         modifier = -1;
         action = "withdraw";
         pastTense = "withdrawn from";
+        maxAmount = startingBalance;
     }
 
-    amount = getDoubleInput("Enter the amount to " + action + ": $", 0.01, 10000);
+    amount = getDoubleInput("Enter the amount to " + action + ": $", 0.01, maxAmount);
 
     amount = truncateDouble(amount, 2) * modifier;
 
@@ -102,7 +105,7 @@ void TransactionMenu::transact(bool isDeposit)
 
     cout << fixed << setprecision(2);
 
-    cout << "$" << amount << " has been " << pastTense << " your account." << endl;
+    cout << "$" << abs(amount) << " has been " << pastTense << " your account." << endl;
     cout << "Your new balance is: $" << user->getBalance() << endl;
 }
 

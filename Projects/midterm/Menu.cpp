@@ -12,6 +12,7 @@ File:           Menu.cpp
 #include "Menu.h"
 #include <string>
 #include <iostream>
+#include <iomanip>
 #include <limits>
 #include <cmath>
 using namespace std;
@@ -25,7 +26,7 @@ int Menu::getIntInput(string prompt, int min, int max)
     {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Invalid input. Please enter a number between " << min << " and " << max << ": ";
+        cout << "Invalid input. Please enter a number between " << min << " and " << max << ": " << endl;
         cout << prompt;
     }
     return value;
@@ -49,7 +50,8 @@ double Menu::getDoubleInput(string prompt, double min, double max)
     {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Invalid input. Please enter a number between $" << min << " and $" << max << ": ";
+        cout << fixed << setprecision(2);
+        cout << "Invalid input. Please enter a number between $" << min << " and $" << max << ": " << endl;
         cout << prompt;
     }
     return value;
