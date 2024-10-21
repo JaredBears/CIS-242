@@ -33,8 +33,8 @@ void TransactionMenu::displayMenu()
         cout << "1. Check Balance" << endl;
         cout << "2. Deposit" << endl;
         cout << "3. Withdraw" << endl;
-        cout << "4. Check Interest" << endl;
-        cout << "5. Logout" << endl;
+        cout << "4. Accrue Interest" << endl;
+        cout << "5. Exit" << endl;
 
         choice = getIntInput("Enter your choice: ", 1, 5);
 
@@ -72,7 +72,6 @@ void TransactionMenu::transact(bool isDeposit)
     double startingBalance = user->getBalance();
     double newBalance;
     double amount;
-    double maxAmount;
     int modifier;
     string action;
     string pastTense;
@@ -83,26 +82,29 @@ void TransactionMenu::transact(bool isDeposit)
         modifier = 1;
         action = "deposit";
         pastTense = "deposited into";
-        maxAmount = 10000;
     }
     else
     {
-        if (startingBalance == 0)
-        {
-            cerr << "You cannot withdraw from an account with a balance of $0." << endl;
-            return;
-        }
         modifier = -1;
         action = "withdraw";
         pastTense = "withdrawn from";
-        maxAmount = startingBalance;
     }
 
-    amount = getDoubleInput("Enter the amount to " + action + ": $", 0.01, maxAmount);
+    amount = getDoubleInput("Enter the amount to " + action + ": $");
 
-    amount = truncateDouble(amount, 2) * modifier;
+    amount = truncateDouble(amount, 2);
 
-    newBalance = user->getBalance() + amount;
+    if(amount < 0)
+    {
+        cout << "Invalid amount. Please enter a positive number." << endl;
+        return;
+    } else if(!isDeposit && amount > user->getBalance())
+    {
+        cout << "Insufficient funds. Please enter a smaller amount." << endl;
+        return;
+    }
+
+    newBalance = user->getBalance() + amount * modifier;
 
     user->setBalance(newBalance);
 
@@ -121,6 +123,12 @@ void TransactionMenu::checkInterest()
     double startingBalance = user->getBalance();
     double interest = truncateDouble(startingBalance * RATE, 2);
     double newBalance = startingBalance + interest;
+
+    if (interest < 0.01)
+    {
+        cout << "You have not earned enough interest to display." << endl;
+        return;
+    }
 
     cout << fixed << setprecision(2);
     cout << "Your starting balance is: $" << startingBalance << endl;

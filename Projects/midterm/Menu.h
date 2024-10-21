@@ -26,6 +26,9 @@ public:
     // Prompts the user for an integer input within a specified range
     int getIntInput(string, int, int);
 
+    // Prompts the user for any double input
+    double getDoubleInput(string);
+
     // Prompts the user for a double input within a specified range
     double getDoubleInput(string, double, double);
 

@@ -26,6 +26,10 @@ public:
     // Displays the main menu for the TransactionMenu
     void displayMenu();
 
+private:
+    // stores reference to current user
+    User *user;
+
     // Checks the balance of the account
     void checkBalance();
 
@@ -34,9 +38,6 @@ public:
 
     // Checks the interest on the account
     void checkInterest();
-
-private:
-    User *user;
 
     // Logs the transaction to a CSV file
     void logTransaction(const string &username, double startingBalance, double amount, double endingBalance);

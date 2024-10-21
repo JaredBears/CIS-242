@@ -24,7 +24,11 @@ using namespace std;
 class LoginMenu : public Menu
 {
 private:
+    // map to store user objects by username
     unordered_map<string, User *> *userBase;
+
+    // Handles user login
+    void login(string, string);
 
     // Loads user data from a JSON file
     void loadUserBase();
@@ -41,9 +45,6 @@ public:
 
     // Displays the login menu
     void displayMenu();
-
-    // Handles user login
-    void login(string, string);
 };
 
 #endif

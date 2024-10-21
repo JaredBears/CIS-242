@@ -41,6 +41,21 @@ string Menu::getStringInput(string prompt)
     return value;
 }
 
+// Prompts the user for any double input
+double Menu::getDoubleInput(string prompt)
+{
+    double value;
+    cout << prompt;
+    while (!(cin >> value))
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cerr << "Invalid input. Please enter a number: " << endl;
+        cout << prompt;
+    }
+    return value;
+}
+
 // Prompts the user for a double input within a specified range
 double Menu::getDoubleInput(string prompt, double min, double max)
 {
