@@ -13,10 +13,12 @@ File:           main.cpp
 #include "Menu.h"
 using namespace std;
 
+// Function to test the Stack class
 void testStack();
 
 int main()
 {
+    // Uncomment to run stack tests
     // testStack();
 
     Menu menu;
@@ -25,7 +27,7 @@ int main()
     return 0;
 }
 
-// tester function
+// Function to test the Stack class with different data types
 void testStack()
 {
     Stack<int> intStack;
@@ -33,6 +35,7 @@ void testStack()
     Stack<char> charStack;
     Stack<Inventory> inventoryStack;
 
+    // Push values onto the stacks
     intStack.push(5);
     intStack.push(10);
     intStack.push(15);
@@ -58,6 +61,7 @@ void testStack()
     inventoryStack.push(inventory3);
     inventoryStack.push(inventory4);
 
+    // Pop values from the stacks and test
     bool test1 = intStack.pop() == 20;
     bool test2 = intStack.pop() == 15;
     bool test3 = intStack.pop() == 10;
@@ -78,15 +82,11 @@ void testStack()
     bool test15 = inventoryStack.pop() == inventory2;
     bool test16 = inventoryStack.pop() == inventory1;
 
+    // Output test results
     cout << "intStack tests: " << ((test1 && test2 && test3 && test4) ? "PASSED" : "FAILED") << endl;
     cout << "doubleStack tests: " << ((test5 && test6 && test7 && test8) ? "PASSED" : "FAILED") << endl;
     cout << "charStack tests: " << ((test9 && test10 && test11 && test12) ? "PASSED" : "FAILED") << endl;
     cout << "inventoryStack tests: " << ((test13 && test14 && test15 && test16) ? "PASSED" : "FAILED") << endl;
 
     cout << "All tests completed." << endl;
-
-    intStack.~Stack();
-    doubleStack.~Stack();
-    charStack.~Stack();
-    inventoryStack.~Stack();
 }

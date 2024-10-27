@@ -14,6 +14,7 @@ File:           Menu.cpp
 #include <limits>
 using namespace std;
 
+// Display the menu and handle user input
 void Menu::displayMenu()
 {
     while (true)
@@ -40,6 +41,7 @@ void Menu::displayMenu()
     }
 }
 
+// Get integer input from the user
 int Menu::getIntInput(string prompt)
 {
     int input;
@@ -56,6 +58,7 @@ int Menu::getIntInput(string prompt)
     return input;
 }
 
+// Get integer input with a minimum value
 int Menu::getIntInput(string prompt, int min)
 {
     int input;
@@ -72,6 +75,7 @@ int Menu::getIntInput(string prompt, int min)
     return input;
 }
 
+// Get integer input within a range
 int Menu::getIntInput(string prompt, int min, int max)
 {
     int input;
@@ -88,6 +92,7 @@ int Menu::getIntInput(string prompt, int min, int max)
     return input;
 }
 
+// Get string input from the user
 string Menu::getStringInput(string prompt)
 {
     string input;
@@ -96,6 +101,7 @@ string Menu::getStringInput(string prompt)
     return input;
 }
 
+// Get string input that matches a pattern
 string Menu::getStringInput(string prompt, string pattern)
 {
     string input;
@@ -111,6 +117,7 @@ string Menu::getStringInput(string prompt, string pattern)
     return input;
 }
 
+// Add an inventory item
 void Menu::addInventoryItem()
 {
     int serial;
@@ -125,6 +132,7 @@ void Menu::addInventoryItem()
     inventoryStack.push(item);
 }
 
+// Remove an inventory item
 void Menu::removeInventoryItem()
 {
     cout << endl;
@@ -141,10 +149,11 @@ void Menu::removeInventoryItem()
     }
 }
 
+// Exit the menu and display remaining items
 void Menu::exit()
 {
     cout << endl
-         << "The Following items remain in the inventory: " << endl;
+         << "The following items remain in the inventory: " << endl;
     while (!inventoryStack.isEmpty())
     {
         cout << "Item: " << endl;
