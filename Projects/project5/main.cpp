@@ -10,13 +10,18 @@ File:           main.cpp
 #include <iostream>
 #include "Stack.h"
 #include "Inventory.h"
+#include "Menu.h"
 using namespace std;
 
 void testStack();
 
 int main()
 {
-    testStack();
+    // testStack();
+
+    Menu menu;
+    menu.displayMenu();
+
     return 0;
 }
 

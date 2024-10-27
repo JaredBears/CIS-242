@@ -22,11 +22,11 @@ private:
     // Structure for the stack nodes
     struct StackNode
     {
-        T value;          // Value in the node
-        StackNode *next;  // Pointer to the next node
+        T value;         // Value in the node
+        StackNode *next; // Pointer to the next node
     };
 
-    StackNode *top;      // Pointer to the stack top
+    StackNode *top; // Pointer to the stack top
 
 public:
     // Constructor

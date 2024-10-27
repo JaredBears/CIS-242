@@ -43,6 +43,9 @@ public:
 
     // Equality check
     bool operator==(const Inventory &) const;
+
+    // stringify
+    string toString() const;
 };
 
 #endif
