@@ -36,9 +36,9 @@ public:
     ~Stack();
 
     // Stack operations
-    void push(T);
-    T pop();
-    bool isEmpty();
+    void push(T);   // Push value onto the stack
+    T pop();        // Pop top node from the stack and return the contents
+    bool isEmpty(); // Determine if the stack is empty
 };
 
 // Constructor
@@ -72,7 +72,7 @@ void Stack<T>::push(T value)
     top = newNode;
 }
 
-// Pop top node from the stack and returns the contents
+// Pop top node from the stack and return the contents
 template <class T>
 T Stack<T>::pop()
 {
