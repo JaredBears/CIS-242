@@ -79,3 +79,11 @@ bool Inventory::operator==(const Inventory &right) const
     }
     return false;
 }
+
+// stringify
+
+string Inventory::toString() const
+{
+    string str = "Serial Number: " + to_string(serialNumber) + "\nManufacture Date: " + manufactDate + "\nLot Number: " + to_string(lotNum);
+    return str;
+}
