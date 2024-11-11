@@ -12,16 +12,18 @@ File:           List.h
 #ifndef LIST_H
 #define LIST_H
 
+#include <iostream>
 using namespace std;
 
 template <class T>
 class List
 {
 private:
+    // Structure for the list nodes
     struct ListNode
     {
-        T value;
-        ListNode *next;
+        T value; // Value of the node
+        ListNode *next; // Pointer to the next node
         ListNode(T value1, ListNode *next1 = nullptr)
         {
             value = value1;
@@ -29,25 +31,32 @@ private:
         }
     };
 
-    ListNode *head;
+    ListNode *head; // Pointer to the head of the list
 
 public:
+    // Constructor
     List();
 
+    // Destructor
     ~List();
 
+    // Append a node to the end of the list
     void appendNode(T);
+    // Print the list
     void printList();
     
+    // Overload the equality operator
     bool operator==(const List<T> &) const;
 };
 
+// Constructor
 template <class T>
 List<T>::List()
 {
     head = nullptr;
 }
 
+// Destructor
 template <class T>
 List<T>::~List()
 {
@@ -60,6 +69,7 @@ List<T>::~List()
     }
 }
 
+// Append a node to the end of the list
 template <class T>
 void List<T>::appendNode(T newValue)
 {
@@ -79,6 +89,7 @@ void List<T>::appendNode(T newValue)
     }
 }
 
+// Print the list
 template <class T>
 void List<T>::printList()
 {
@@ -96,6 +107,7 @@ void List<T>::printList()
     cout << "]\n";
 }
 
+// Overload the equality operator
 template <class T>
 bool List<T>::operator==(const List<T> &list) const
 {
