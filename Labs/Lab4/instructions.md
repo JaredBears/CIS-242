@@ -14,3 +14,7 @@
     - deque
     - List
     - vector
+
+## Additional Requirements Added:
+I wanted to add a few more requirements please output which numbers in the element are the same and how many are there.  Which element from the set is highest and the lowest number.
+If all three are identical from all 3 sets please output a grand prize winner message.

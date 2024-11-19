@@ -29,7 +29,7 @@ private:
             value = value1;
             next = next1;
         }
-    };
+    };   
 
     ListNode *head; // Pointer to the head of the list
 
@@ -42,11 +42,12 @@ public:
 
     // Append a node to the end of the list
     void appendNode(T);
+
     // Print the list
     void printList();
     
-    // Overload the equality operator
-    bool operator==(const List<T> &) const;
+    // compare two lists
+    bool compareLists(List<T> &);
 };
 
 // Constructor
@@ -107,24 +108,41 @@ void List<T>::printList()
     cout << "]\n";
 }
 
-// Overload the equality operator
+// compare two lists
 template <class T>
-bool List<T>::operator==(const List<T> &list) const
+bool List<T>::compareLists(List<T> &list)
 {
+    // traverse the nodes of the lists, comparing the values
+    // Output the elements of the list that are the same
+    // if the entire list is the same, output that they are identical
+    //  and return true else return false
+    bool same = true;
     ListNode *nodePtr1 = head;
     ListNode *nodePtr2 = list.head;
-
-    while (nodePtr1 != nullptr && nodePtr2 != nullptr)
+    int count;
+    for (count = 0; nodePtr1 != nullptr && nodePtr2 != nullptr; count++)
     {
         if (nodePtr1->value != nodePtr2->value)
         {
-            return false;
+            same = false;
+            break;
         }
         nodePtr1 = nodePtr1->next;
         nodePtr2 = nodePtr2->next;
     }
-
-    return nodePtr1 == nullptr && nodePtr2 == nullptr;
+    if (nodePtr1 != nullptr || nodePtr2 != nullptr)
+    {
+        same = false;
+    }
+    if (same)
+    {
+        cout << "The lists are identical.\n";
+    }
+    else
+    {
+        cout << "The lists are not identical.\n";
+    }
+    return same;
 }
 
 #endif
