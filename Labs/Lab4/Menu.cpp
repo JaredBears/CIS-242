@@ -12,6 +12,8 @@ File:           Menu.cpp
 #include "Menu.h"
 #include <iostream>
 #include <limits>
+#include <ctime>
+#include <cstdlib>
 using namespace std;
 
 const int SIZE = 10;
@@ -41,11 +43,30 @@ void Menu::displayMenu()
 
         // Fill the third list with random integers
         cout << "Filling the third list with random integers." << endl;
-        // fillRandomList(list3, SIZE);
-        fillList(list3, SIZE);
+        // fillList(list3, SIZE);
+        fillRandomList(list3, SIZE);
         cout << endl;
 
+        // print the lists
+        cout << "List1: ";
+        list1.printList();
+        cout << "List2: ";
+        list2.printList();
+        cout << "List3: ";
+        list3.printList();
+
+        // Find the highest value in the lists
+        cout << "The highest value in list1 is: " << list1.findHighest() << endl;
+        cout << "The highest value in list2 is: " << list2.findHighest() << endl;
+        cout << "The highest value in list3 is: " << list3.findHighest() << endl;
+
+        // Find the lowest value in the lists
+        cout << "The lowest value in list1 is: " << list1.findLowest() << endl;
+        cout << "The lowest value in list2 is: " << list2.findLowest() << endl;
+        cout << "The lowest value in list3 is: " << list3.findLowest() << endl;
+
         // Compare the three lists
+        cout << endl;
         cout << "Comparing the three lists." << endl;
         compareLists();
         cout << endl;
@@ -95,33 +116,27 @@ void Menu::compareLists()
     bool check1and3;
     bool check2and3;
 
+    cout << endl;
+
     // Compare list1 and list2
     cout << "Comparing list1 and list2." << endl;
-    cout << "List1: ";
-    list1.printList();
-    cout << "List2: ";
-    list2.printList();
     check1and2 = list1.compareLists(list2);
+    cout << endl;
 
     // Compare list1 and list3
     cout << "Comparing list1 and list3." << endl;
-    cout << "List1: ";
-    list1.printList();
-    cout << "List3: ";
-    list3.printList();
     check1and3 = list1.compareLists(list3);
+    cout << endl;
 
     if (check1and2 && check1and3)
     {
+        cout << "Grand Prize Winner!" << endl;
         cout << "The three lists are identical." << endl;
         return;
     }
 
     // Compare list2 and list3
     cout << "Comparing list2 and list3." << endl;
-    cout << "List2: ";
-    list2.printList();
-    cout << "List3: ";
-    list3.printList();
     check2and3 = list2.compareLists(list3);
+    cout << endl;
 }

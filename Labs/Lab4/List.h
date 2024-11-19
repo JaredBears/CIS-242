@@ -22,14 +22,14 @@ private:
     // Structure for the list nodes
     struct ListNode
     {
-        T value; // Value of the node
+        T value;        // Value of the node
         ListNode *next; // Pointer to the next node
         ListNode(T value1, ListNode *next1 = nullptr)
         {
             value = value1;
             next = next1;
         }
-    };   
+    };
 
     ListNode *head; // Pointer to the head of the list
 
@@ -45,9 +45,15 @@ public:
 
     // Print the list
     void printList();
-    
+
     // compare two lists
     bool compareLists(List<T> &);
+
+    // Find the highest value in the list
+    T findHighest();
+
+    // Find the lowest value in the list
+    T findLowest();
 };
 
 // Constructor
@@ -95,7 +101,7 @@ template <class T>
 void List<T>::printList()
 {
     ListNode *nodePtr = head;
-    cout << "List: [";
+    cout << "[";
     while (nodePtr != nullptr)
     {
         cout << nodePtr->value;
@@ -112,20 +118,21 @@ void List<T>::printList()
 template <class T>
 bool List<T>::compareLists(List<T> &list)
 {
-    // traverse the nodes of the lists, comparing the values
-    // Output the elements of the list that are the same
-    // if the entire list is the same, output that they are identical
-    //  and return true else return false
     bool same = true;
     ListNode *nodePtr1 = head;
     ListNode *nodePtr2 = list.head;
-    int count;
-    for (count = 0; nodePtr1 != nullptr && nodePtr2 != nullptr; count++)
+    int numsame = 0;
+    for (int count = 0; nodePtr1 != nullptr && nodePtr2 != nullptr; count++)
     {
+
         if (nodePtr1->value != nodePtr2->value)
         {
             same = false;
-            break;
+        }
+        else
+        {
+            cout << "Element " << count << " is the same: " << nodePtr1->value << endl;
+            numsame++;
         }
         nodePtr1 = nodePtr1->next;
         nodePtr2 = nodePtr2->next;
@@ -137,12 +144,56 @@ bool List<T>::compareLists(List<T> &list)
     if (same)
     {
         cout << "The lists are identical.\n";
+        cout << "All elements are the same.\n";
     }
     else
     {
         cout << "The lists are not identical.\n";
+        cout << "Number of elements that are the same: " << numsame << endl;
     }
     return same;
+}
+
+// Find the highest value in the list
+template <class T>
+T List<T>::findHighest()
+{
+    if (head == nullptr)
+    {
+        throw runtime_error("List is empty");
+    }
+    ListNode *nodePtr = head;
+    T highest = nodePtr->value;
+    while (nodePtr != nullptr)
+    {
+        if (nodePtr->value > highest)
+        {
+            highest = nodePtr->value;
+        }
+        nodePtr = nodePtr->next;
+    }
+    return highest;
+}
+
+// Find the lowest value in the list
+template <class T>
+T List<T>::findLowest()
+{
+    if (head == nullptr)
+    {
+        throw runtime_error("List is empty");
+    }
+    ListNode *nodePtr = head;
+    T lowest = nodePtr->value;
+    while (nodePtr != nullptr)
+    {
+        if (nodePtr->value < lowest)
+        {
+            lowest = nodePtr->value;
+        }
+        nodePtr = nodePtr->next;
+    }
+    return lowest;
 }
 
 #endif
