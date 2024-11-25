@@ -1,4 +1,12 @@
-// Rectangle.cpp
+/*
+
+Assignment:     Project 6 - Virtual Classes
+Name:           Jared Bears
+Date:           2024-11-25
+File:           Rectangle.cpp
+
+*/
+
 #include "Rectangle.h"
 
 // Constructor

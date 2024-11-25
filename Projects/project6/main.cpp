@@ -1,4 +1,12 @@
-// main.cpp
+/*
+
+Assignment:     Project 6 - Virtual Classes
+Name:           Jared Bears
+Date:           2024-11-25
+File:           main.cpp
+
+*/
+
 #include <iostream>
 #include "Circle.h"
 #include "Rectangle.h"

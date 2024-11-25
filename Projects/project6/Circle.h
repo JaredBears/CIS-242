@@ -1,4 +1,12 @@
-// Circle.h
+/*
+
+Assignment:     Project 6 - Virtual Classes
+Name:           Jared Bears
+Date:           2024-11-25
+File:           Circle.h
+
+*/
+
 #ifndef CIRCLE_H
 #define CIRCLE_H
 

@@ -1,4 +1,13 @@
-// Rectangle.h
+/*
+
+Assignment:     Project 6 - Virtual Classes
+Name:           Jared Bears
+Date:           2024-11-25
+File:           Rectangle.h
+
+*/
+
+
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
 

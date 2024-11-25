@@ -1,3 +1,12 @@
+/*
+
+Assignment:     Project 6 - Virtual Classes
+Name:           Jared Bears
+Date:           2024-11-25
+File:           BasicShape.h
+
+*/
+
 #ifndef BASICSHAPE_H
 #define BASICSHAPE_H
 
