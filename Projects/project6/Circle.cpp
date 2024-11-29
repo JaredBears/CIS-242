@@ -8,7 +8,8 @@ File:           Circle.cpp
 */
 
 #include "Circle.h"
-#include <cmath>
+
+const double PI = 3.14159265358979323846;
 
 // Constructor
 Circle::Circle(long x, long y, double r) : centerX(x), centerY(y), radius(r)
@@ -31,5 +32,5 @@ long Circle::getCenterY() const
 // Override the calcArea function
 void Circle::calcArea()
 {
-    area = M_PI * radius * radius;
+    area = PI * radius * radius;
 }
