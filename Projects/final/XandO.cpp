@@ -8,6 +8,7 @@ File:           XandO.cpp
 */
 
 #include "XandO.h"
+#include <iomanip>
 using namespace std;
 
 XandO::XandO()
@@ -63,13 +64,21 @@ void XandO::playerMove()
 
 void XandO::displayBoard()
 {
-    for (const auto &row : board)
+    const int terminalWidth = 80;
+    const int boardWidth = 17; // 3 cells * 4 characters (including borders) + 2 borders + 2 spaces for row labels
+    const int padding = (terminalWidth - boardWidth) / 2;
+
+    cout << string(padding, ' ') << "    0   1   2" << endl;
+    cout << string(padding, ' ') << "  -------------" << endl;
+    for (int i = 0; i < 3; ++i)
     {
-        for (const auto &cell : row)
+        cout << string(padding, ' ') << i << " | ";
+        for (int j = 0; j < 3; ++j)
         {
-            cout << cell << " ";
+            cout << board[i][j] << " | ";
         }
         cout << endl;
+        cout << string(padding, ' ') << "  -------------" << endl;
     }
 }
 
