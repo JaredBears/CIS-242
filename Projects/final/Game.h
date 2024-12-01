@@ -27,7 +27,7 @@ protected:
 
 public:
     virtual ~Game() {}
-    virtual void play() = 0;
+    virtual void play(bool twoPlayerMode) = 0;
     virtual void displayBoard() = 0;
     virtual void switchPlayer() = 0;
     virtual bool checkWin() = 0;

@@ -13,9 +13,10 @@ File:           Menu.cpp
 
 void Menu::displayMenu()
 {
-    cout << "Welcome to the Ultimate Tic Tac Toe Game!" << endl;
-    cout << "1. Play Game" << endl;
-    cout << "2. Exit" << endl;
+    cout << "Welcome to the Exes and Ohs!" << endl;
+    cout << "1. Play Single-Player Game" << endl;
+    cout << "2. Play Two-Player Game" << endl;
+    cout << "3. Exit" << endl;
 }
 
 void Menu::handleInput()
@@ -38,9 +39,14 @@ void Menu::handleInput()
         if (choice == 1)
         {
             XandO game;
-            game.play();
+            game.play(false); // Single-player mode
         }
         else if (choice == 2)
+        {
+            XandO game;
+            game.play(true); // Two-player mode
+        }
+        else if (choice == 3)
         {
             cout << "Exiting the game. Goodbye!" << endl;
             break;

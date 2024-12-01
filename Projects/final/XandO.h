@@ -18,8 +18,9 @@ class XandO : public Game
 {
 public:
     XandO();
-    void play() override;
+    void play(bool twoPlayerMode) override;
     void playerMove();
+    void computerMove();
     void displayBoard() override;
     void switchPlayer() override;
     bool checkWin() override;
@@ -28,6 +29,9 @@ public:
 
 private:
     chrono::time_point<chrono::high_resolution_clock> start;
+    bool twoPlayerMode;
+    bool humanIsPlayer1;
+    void makeMove(int row, int col); // Declaration of the makeMove function
 };
 
 #endif

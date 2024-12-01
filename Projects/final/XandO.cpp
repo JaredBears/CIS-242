@@ -12,6 +12,7 @@ File:           XandO.cpp
 #include <cstdlib>
 #include <ctime>
 #include <chrono>
+#include <algorithm>
 using namespace std;
 
 XandO::XandO()
@@ -23,14 +24,26 @@ XandO::XandO()
     srand(time(0)); // Seed the random number generator
 }
 
-void XandO::play()
+void XandO::play(bool twoPlayerMode)
 {
+    this->twoPlayerMode = twoPlayerMode;
+    humanIsPlayer1 = rand() % 2 == 0; // Randomly assign human to player 1 or player 2
+    currentPlayer = player1;
+
     start = chrono::high_resolution_clock::now(); // Start timing the game
 
     while (true)
     {
         displayBoard();
-        playerMove();
+        if (twoPlayerMode || (humanIsPlayer1 && currentPlayer == player1) || (!humanIsPlayer1 && currentPlayer == player2))
+        {
+            playerMove();
+        }
+        else
+        {
+            computerMove();
+        }
+
         if (checkWin())
         {
             displayBoard();
@@ -97,6 +110,102 @@ void XandO::playerMove()
     }
 }
 
+void XandO::computerMove()
+{
+    // First move is random
+    if (count(board.begin(), board.end(), vector<char>{' ', ' ', ' '}) == 3)
+    {
+        makeMove(rand() % 3, rand() % 3);
+        return;
+    }
+
+    // Block human player from winning
+    char humanPlayer = humanIsPlayer1 ? player1 : player2;
+    for (int i = 0; i < 3; ++i)
+    {
+        // Check rows
+        if (board[i][0] == humanPlayer && board[i][1] == humanPlayer && board[i][2] == ' ')
+        {
+            makeMove(i, 2);
+            return;
+        }
+        if (board[i][0] == humanPlayer && board[i][2] == humanPlayer && board[i][1] == ' ')
+        {
+            makeMove(i, 1);
+            return;
+        }
+        if (board[i][1] == humanPlayer && board[i][2] == humanPlayer && board[i][0] == ' ')
+        {
+            makeMove(i, 0);
+            return;
+        }
+
+        // Check columns
+        if (board[0][i] == humanPlayer && board[1][i] == humanPlayer && board[2][i] == ' ')
+        {
+            makeMove(2, i);
+            return;
+        }
+        if (board[0][i] == humanPlayer && board[2][i] == humanPlayer && board[1][i] == ' ')
+        {
+            makeMove(1, i);
+            return;
+        }
+        if (board[1][i] == humanPlayer && board[2][i] == humanPlayer && board[0][i] == ' ')
+        {
+            makeMove(0, i);
+            return;
+        }
+    }
+
+    // Check diagonals
+    if (board[0][0] == humanPlayer && board[1][1] == humanPlayer && board[2][2] == ' ')
+    {
+        makeMove(2, 2);
+        return;
+    }
+    if (board[0][0] == humanPlayer && board[2][2] == humanPlayer && board[1][1] == ' ')
+    {
+        makeMove(1, 1);
+        return;
+    }
+    if (board[1][1] == humanPlayer && board[2][2] == humanPlayer && board[0][0] == ' ')
+    {
+        makeMove(0, 0);
+        return;
+    }
+    if (board[0][2] == humanPlayer && board[1][1] == humanPlayer && board[2][0] == ' ')
+    {
+        makeMove(2, 0);
+        return;
+    }
+    if (board[0][2] == humanPlayer && board[2][0] == humanPlayer && board[1][1] == ' ')
+    {
+        makeMove(1, 1);
+        return;
+    }
+    if (board[1][1] == humanPlayer && board[2][0] == humanPlayer && board[0][2] == ' ')
+    {
+        makeMove(0, 2);
+        return;
+    }
+
+    // If no blocking move is found, make a random move
+    int row, col;
+    do
+    {
+        row = rand() % 3;
+        col = rand() % 3;
+    } while (board[row][col] != ' ');
+    makeMove(row, col);
+}
+
+void XandO::makeMove(int row, int col)
+{
+    board[row][col] = currentPlayer;
+    cout << "Computer played at (" << row << ", " << col << ")" << endl;
+}
+
 void XandO::displayBoard()
 {
     const int terminalWidth = 80;
@@ -158,9 +267,7 @@ void XandO::saveScore(const string &winner, double duration)
     {
         auto now = chrono::system_clock::to_time_t(chrono::system_clock::now());
         tm *ltm = localtime(&now);
-        file << "Winner: " << winner << " at "
-             << put_time(ltm, "%I:%M:%S %p on %m/%d/%Y")
-             << " | Duration: " << duration << " seconds" << endl;
+        file << put_time(ltm, "%Y/%m/%d %H:%M:%S") << " | " << winner << " | Duration: " << duration << " seconds" << endl;
         file.close();
     }
     else
