@@ -9,6 +9,9 @@ File:           XandO.cpp
 
 #include "XandO.h"
 #include <iomanip>
+#include <cstdlib>
+#include <ctime>
+#include <chrono>
 using namespace std;
 
 XandO::XandO()
@@ -17,10 +20,13 @@ XandO::XandO()
     player1 = 'X';
     player2 = 'O';
     currentPlayer = player1;
+    srand(time(0)); // Seed the random number generator
 }
 
 void XandO::play()
 {
+    start = chrono::high_resolution_clock::now(); // Start timing the game
+
     while (true)
     {
         displayBoard();
@@ -29,14 +35,20 @@ void XandO::play()
         {
             displayBoard();
             cout << "Player " << currentPlayer << " wins!" << endl;
-            saveScore(string(1, currentPlayer));
+            auto end = chrono::high_resolution_clock::now(); // End timing the game
+            chrono::duration<double> duration = end - start;
+            cout << "Game duration: " << duration.count() << " seconds" << endl;
+            saveScore(string(1, currentPlayer), duration.count());
             break;
         }
         if (checkDraw())
         {
             displayBoard();
             cout << "The game is a draw!" << endl;
-            saveScore("Draw");
+            auto end = chrono::high_resolution_clock::now(); // End timing the game
+            chrono::duration<double> duration = end - start;
+            cout << "Game duration: " << duration.count() << " seconds" << endl;
+            saveScore("Draw", duration.count());
             break;
         }
         switchPlayer();
@@ -45,11 +57,34 @@ void XandO::play()
 
 void XandO::playerMove()
 {
+    string input;
     int row, col;
     while (true)
     {
-        cout << "Player " << currentPlayer << ", enter your move (row and column): ";
-        cin >> row >> col;
+        cout << "Player " << currentPlayer << ", enter your move (row and column) or 'R' to resign: ";
+        cin >> input;
+
+        if (input == "R" || input == "r")
+        {
+            cout << "Player " << currentPlayer << " has resigned. Game over." << endl;
+            auto end = chrono::high_resolution_clock::now(); // End timing the game
+            chrono::duration<double> duration = end - start;
+            cout << "Game duration: " << duration.count() << " seconds" << endl;
+            saveScore(currentPlayer == player1 ? string(1, player2) : string(1, player1), duration.count());
+            exit(0);
+        }
+
+        try
+        {
+            row = stoi(input);
+            cin >> col;
+        }
+        catch (invalid_argument &)
+        {
+            cout << "Invalid input. Please enter a valid move or 'R' to resign." << endl;
+            continue;
+        }
+
         if (row >= 0 && row < 3 && col >= 0 && col < 3 && board[row][col] == ' ')
         {
             board[row][col] = currentPlayer;
@@ -116,12 +151,16 @@ bool XandO::checkDraw()
     return true;
 }
 
-void XandO::saveScore(const string &winner)
+void XandO::saveScore(const string &winner, double duration)
 {
     ofstream file("scores.txt", ios::app);
     if (file.is_open())
     {
-        file << "Winner: " << winner << " at " << time(nullptr) << endl;
+        auto now = chrono::system_clock::to_time_t(chrono::system_clock::now());
+        tm *ltm = localtime(&now);
+        file << "Winner: " << winner << " at "
+             << put_time(ltm, "%I:%M:%S %p on %m/%d/%Y")
+             << " | Duration: " << duration << " seconds" << endl;
         file.close();
     }
     else

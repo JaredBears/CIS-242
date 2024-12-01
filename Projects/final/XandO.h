@@ -11,6 +11,8 @@ File:           XandO.h
 #define XANDO_H
 
 #include "Game.h"
+#include <chrono>
+using namespace std;
 
 class XandO : public Game
 {
@@ -22,7 +24,10 @@ public:
     void switchPlayer() override;
     bool checkWin() override;
     bool checkDraw() override;
-    void saveScore(const string &winner) override;
+    void saveScore(const string &winner, double duration) override;
+
+private:
+    chrono::time_point<chrono::high_resolution_clock> start;
 };
 
 #endif

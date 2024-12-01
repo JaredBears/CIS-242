@@ -32,7 +32,7 @@ public:
     virtual void switchPlayer() = 0;
     virtual bool checkWin() = 0;
     virtual bool checkDraw() = 0;
-    virtual void saveScore(const string &winner) = 0;
+    virtual void saveScore(const string &winner, double duration) = 0;
 };
 
 #endif
