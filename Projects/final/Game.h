@@ -24,6 +24,7 @@ protected:
     char player1;
     char player2;
     char currentPlayer;
+    time_t start; // Member variable to store the start time
 
 public:
     virtual ~Game() {}
@@ -33,6 +34,17 @@ public:
     virtual bool checkWin() = 0;
     virtual bool checkDraw() = 0;
     virtual void saveScore(const string &winner, double duration) = 0;
+
+protected:
+    // Platform-specific function for converting time_t to tm
+    void safe_localtime(tm *result, const time_t *time)
+    {
+#ifdef _WIN32
+        localtime_s(result, time); // Use localtime_s for Windows
+#else
+        localtime_r(time, result); // Use localtime_r for POSIX
+#endif
+    }
 };
 
 #endif

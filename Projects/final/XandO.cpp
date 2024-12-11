@@ -11,105 +11,125 @@ File:           XandO.cpp
 #include <iomanip>
 #include <cstdlib>
 #include <ctime>
-#include <chrono>
 #include <algorithm>
+#include <stdexcept>
 using namespace std;
 
+// Constructor to initialize the game board and players
 XandO::XandO()
 {
-    board = vector<vector<char>>(3, vector<char>(3, ' '));
-    player1 = 'X';
-    player2 = 'O';
-    currentPlayer = player1;
-    srand(time(0)); // Seed the random number generator
+    board = vector<vector<char>>(3, vector<char>(3, ' ')); // Initialize a 3x3 board with empty spaces
+    player1 = 'X';                                         // Player 1 is 'X'
+    player2 = 'O';                                         // Player 2 is 'O'
+    currentPlayer = player1;                               // Start with player 1
+    srand(static_cast<unsigned int>(time(nullptr)));       // Seed the random number generator
 }
 
+// Function to start the game
 void XandO::play(bool twoPlayerMode)
 {
-    this->twoPlayerMode = twoPlayerMode;
-    humanIsPlayer1 = rand() % 2 == 0; // Randomly assign human to player 1 or player 2
-    currentPlayer = player1;
+    this->twoPlayerMode = twoPlayerMode; // Set the game mode
+    humanIsPlayer1 = rand() % 2 == 0;    // Randomly assign human to player 1 or player 2
+    currentPlayer = player1;             // Start with player 1
 
-    start = chrono::high_resolution_clock::now(); // Start timing the game
+    start = time(nullptr); // Start timing the game
 
-    while (true)
+    try
     {
-        displayBoard();
-        if (twoPlayerMode || (humanIsPlayer1 && currentPlayer == player1) || (!humanIsPlayer1 && currentPlayer == player2))
+        while (true)
         {
-            playerMove();
-        }
-        else
-        {
-            computerMove();
-        }
+            displayBoard(); // Display the current state of the board
+            if (twoPlayerMode || (humanIsPlayer1 && currentPlayer == player1) || (!humanIsPlayer1 && currentPlayer == player2))
+            {
+                playerMove(); // Human player's move
+            }
+            else
+            {
+                computerMove(); // Computer player's move
+            }
 
-        if (checkWin())
-        {
-            displayBoard();
-            cout << "Player " << currentPlayer << " wins!" << endl;
-            auto end = chrono::high_resolution_clock::now(); // End timing the game
-            chrono::duration<double> duration = end - start;
-            cout << "Game duration: " << duration.count() << " seconds" << endl;
-            saveScore(string(1, currentPlayer), duration.count());
-            break;
+            if (checkWin())
+            {
+                displayBoard();
+                cout << "Player " << currentPlayer << " wins!" << endl;
+                time_t end = time(nullptr); // End timing the game
+                double duration = difftime(end, start);
+                cout << "Game duration: " << duration << " seconds" << endl;
+                saveScore(string(1, currentPlayer), duration); // Save the game result
+                break;
+            }
+            if (checkDraw())
+            {
+                displayBoard();
+                cout << "The game is a draw!" << endl;
+                time_t end = time(nullptr); // End timing the game
+                double duration = difftime(end, start);
+                cout << "Game duration: " << duration << " seconds" << endl;
+                saveScore("Draw", duration); // Save the game result
+                break;
+            }
+            switchPlayer(); // Switch to the other player
         }
-        if (checkDraw())
-        {
-            displayBoard();
-            cout << "The game is a draw!" << endl;
-            auto end = chrono::high_resolution_clock::now(); // End timing the game
-            chrono::duration<double> duration = end - start;
-            cout << "Game duration: " << duration.count() << " seconds" << endl;
-            saveScore("Draw", duration.count());
-            break;
-        }
-        switchPlayer();
+    }
+    catch (const runtime_error &e)
+    {
+        cout << e.what() << endl;
+        // Return to the main menu
     }
 }
 
+// Function to handle the human player's move
 void XandO::playerMove()
 {
     string input;
     int row, col;
+    int invalidAttempts = 0; // Counter for invalid input attempts
     while (true)
     {
-        cout << "Player " << currentPlayer << ", enter your move (row and column) or 'R' to resign: ";
-        cin >> input;
+        cout << "Player " << currentPlayer << ", enter your move (row and column as 'r c') or 'R' to resign: ";
+        cin >> ws; // Eat up any leading whitespace
+        getline(cin, input);
 
         if (input == "R" || input == "r")
         {
             cout << "Player " << currentPlayer << " has resigned. Game over." << endl;
-            auto end = chrono::high_resolution_clock::now(); // End timing the game
-            chrono::duration<double> duration = end - start;
-            cout << "Game duration: " << duration.count() << " seconds" << endl;
-            saveScore(currentPlayer == player1 ? string(1, player2) : string(1, player1), duration.count());
-            exit(0);
+            time_t end = time(nullptr); // End timing the game
+            double duration = difftime(end, start);
+            cout << "Game duration: " << duration << " seconds" << endl;
+            saveScore(currentPlayer == player1 ? string(1, player2) : string(1, player1), duration); // Save the game result
+            throw runtime_error("Player resigned");                                                  // Throw an exception to return to the main menu
         }
 
-        try
+        istringstream iss(input);
+        if (iss >> row >> col)
         {
-            row = stoi(input);
-            cin >> col;
-        }
-        catch (invalid_argument &)
-        {
-            cout << "Invalid input. Please enter a valid move or 'R' to resign." << endl;
-            continue;
-        }
-
-        if (row >= 0 && row < 3 && col >= 0 && col < 3 && board[row][col] == ' ')
-        {
-            board[row][col] = currentPlayer;
-            break;
+            if (row >= 0 && row < 3 && col >= 0 && col < 3 && board[row][col] == ' ')
+            {
+                board[row][col] = currentPlayer; // Make the move
+                break;
+            }
+            else
+            {
+                cout << "Invalid move. Try again." << endl;
+            }
         }
         else
         {
-            cout << "Invalid move. Try again." << endl;
+            cout << "Invalid input. Please enter a valid move." << endl;
+            invalidAttempts++;
+        }
+
+        if (invalidAttempts >= 5)
+        {
+            time_t end = time(nullptr); // End timing the game
+            double duration = difftime(end, start);
+            saveScore("Invalid", duration);                                                                            // Save the game result
+            throw runtime_error("Too many invalid attempts.  Game ending after " + to_string(duration) + " seconds."); // Throw an exception to return to the main menu
         }
     }
 }
 
+// Function to handle the computer player's move
 void XandO::computerMove()
 {
     // First move is random
@@ -200,17 +220,24 @@ void XandO::computerMove()
     makeMove(row, col);
 }
 
+// Helper function to make a move and print the move
 void XandO::makeMove(int row, int col)
 {
     board[row][col] = currentPlayer;
     cout << "Computer played at (" << row << ", " << col << ")" << endl;
 }
 
+// Function to display the current state of the board
 void XandO::displayBoard()
 {
     const int terminalWidth = 80;
     const int boardWidth = 17; // 3 cells * 4 characters (including borders) + 2 borders + 2 spaces for row labels
     const int padding = (terminalWidth - boardWidth) / 2;
+
+    if (terminalWidth < boardWidth)
+    {
+        cout << "Warning: Terminal width is less than 80 characters. The board may not display correctly." << endl;
+    }
 
     cout << string(padding, ' ') << "    0   1   2" << endl;
     cout << string(padding, ' ') << "  -------------" << endl;
@@ -226,11 +253,13 @@ void XandO::displayBoard()
     }
 }
 
+// Function to switch to the other player
 void XandO::switchPlayer()
 {
     currentPlayer = (currentPlayer == player1) ? player2 : player1;
 }
 
+// Function to check if the current player has won
 bool XandO::checkWin()
 {
     for (int i = 0; i < 3; ++i)
@@ -247,6 +276,7 @@ bool XandO::checkWin()
     return false;
 }
 
+// Function to check if the game is a draw
 bool XandO::checkDraw()
 {
     for (const auto &row : board)
@@ -260,14 +290,16 @@ bool XandO::checkDraw()
     return true;
 }
 
+// Function to save the game result to a file
 void XandO::saveScore(const string &winner, double duration)
 {
     ofstream file("scores.txt", ios::app);
     if (file.is_open())
     {
-        auto now = chrono::system_clock::to_time_t(chrono::system_clock::now());
-        tm *ltm = localtime(&now);
-        file << put_time(ltm, "%Y/%m/%d %H:%M:%S") << " | " << winner << " | Duration: " << duration << " seconds" << endl;
+        auto now = time(nullptr);
+        tm ltm;
+        safe_localtime(&ltm, &now); // Use safe_localtime for platform-specific time conversion
+        file << put_time(&ltm, "%Y/%m/%d %H:%M:%S") << " | " << winner << " | Duration: " << duration << " seconds" << endl;
         file.close();
     }
     else
